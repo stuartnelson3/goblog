@@ -1,0 +1,18 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+{{template "hero.html" .}}
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+    <div class="span6">
+      {{range .posts}}
+      <p>{{.}}</p>
+      {{end}}
+    </div>
+  </div>
+</div>
+
+{{template "footer.html" .}}
