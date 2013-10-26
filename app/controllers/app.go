@@ -17,9 +17,20 @@ func (c App) Index() revel.Result {
     return c.Render(posts, pageHeader)
 }
 
-func (c App) Show() revel.Result {
+func (c App) Show(id int) revel.Result {
     pageHeader := "Show page!!"
-    return c.Render(pageHeader)
+    posts := make(map[int]string)
+    posts[1] = "This is the first post!!!"
+    posts[2] = "This is the second post!!!"
+    posts[3] = "This is the third post!!!"
+    posts[4] = "This is the fourth post!!!"
+    posts[5] = "This is the fifth post!!!"
+    post, prs := posts[id]
+    if !prs {
+        c.Response.Status = 404
+        return c.NotFound("Page not found")
+    }
+    return c.Render(post, pageHeader)
 }
 
 func (c App) New() revel.Result {
