@@ -2,23 +2,15 @@ package controllers
 
 import (
     "github.com/robfig/revel"
-    "github.com/coopernurse/gorp"
-    _ "github.com/bmizerany/pq"
-    "database/sql"
+    "blog/db"
+    "blog/app/models"
 )
-
-var db, err = sql.Open("postgres", "user=stuartnelson dbname=goblog sslmode=disable")
-var dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
 
 type App struct {
     *revel.Controller
 }
 
-type Post struct {
-    Id int64
-    Title string
-    Body string
-}
+var dbmap = *dbsetup.DbSetup()
 
 func (c App) Index() revel.Result {
     pageHeader := "Main page!!"
@@ -33,13 +25,12 @@ func (c App) Index() revel.Result {
 
 func (c App) Show(id int) revel.Result {
     pageHeader := "Show page!!"
-    dbmap.AddTableWithName(Post{}, "posts").SetKeys(true, "Id")
-    obj, _ := dbmap.Get(Post{}, id)
+    obj, _ := dbmap.Get(models.Post{}, id)
     if obj == nil {
         c.Response.Status = 404
         return c.NotFound("Not found")
     }
-    post := obj.(*Post)
+    post := obj.(*models.Post)
     return c.Render(post, pageHeader)
 }
 
