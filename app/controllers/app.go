@@ -5,8 +5,6 @@ import (
     "github.com/coopernurse/gorp"
     _ "github.com/bmizerany/pq"
     "database/sql"
-    "log"
-    "os"
 )
 
 var db, err = sql.Open("postgres", "user=stuartnelson dbname=goblog sslmode=disable")
@@ -17,9 +15,9 @@ type App struct {
 }
 
 type Post struct {
-    Id int64 `db:"id"`
-    Title string `db:"title"`
-    Body string `db:"body"`
+    Id int64
+    Title string
+    Body string
 }
 
 func (c App) Index() revel.Result {
@@ -36,14 +34,12 @@ func (c App) Index() revel.Result {
 func (c App) Show(id int) revel.Result {
     pageHeader := "Show page!!"
     dbmap.AddTableWithName(Post{}, "posts").SetKeys(true, "Id")
-    obj, err := dbmap.Get(Post{}, id)
-    // post, err := dbmap.Select("select body from posts where id=$1", id)
-    dbmap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
-    post := obj.(*Post)
-    if err != nil {
+    obj, _ := dbmap.Get(Post{}, id)
+    if obj == nil {
         c.Response.Status = 404
         return c.NotFound("Not found")
     }
+    post := obj.(*Post)
     return c.Render(post, pageHeader)
 }
 
