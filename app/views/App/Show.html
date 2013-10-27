@@ -7,9 +7,14 @@
     <div class="span6">
       {{template "flash.html" .}}
     </div>
+
+    {{ with .post }}
     <div class="span6">
-      {{.post}}
+      <div>Title: {{.Title}}</div>
+      <div>Body: {{.Body}}</div>
     </div>
+    {{end}}
+
   </div>
 </div>
 
