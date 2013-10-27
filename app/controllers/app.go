@@ -14,12 +14,9 @@ var dbmap = *dbsetup.DbSetup()
 
 func (c App) Index() revel.Result {
     pageHeader := "Main page!!"
-    posts := make([]string, 5)
-    posts[0] = "This is the first post!!!"
-    posts[1] = "This is the second post!!!"
-    posts[2] = "This is the third post!!!"
-    posts[3] = "This is the fourth post!!!"
-    posts[4] = "This is the fifth post!!!"
+    var posts []*models.Post
+    query := "select * from posts"
+    dbmap.Select(&posts, query)
     return c.Render(posts, pageHeader)
 }
 

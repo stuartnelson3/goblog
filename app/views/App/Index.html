@@ -9,9 +9,17 @@
     </div>
     <div class="span6">
       {{range .posts}}
-      <p>{{.}}</p>
+
+        {{ with . }}
+          <div class="span6">
+            <div>Title: {{.Title}}</div>
+            <div>Body: {{.Body}}</div>
+          </div>
+        {{end}}
+
       {{end}}
     </div>
+
   </div>
 </div>
 
