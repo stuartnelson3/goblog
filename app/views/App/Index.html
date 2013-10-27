@@ -12,7 +12,9 @@
 
         {{ with . }}
           <div class="span6">
-            <div>Title: {{.Title}}</div>
+            <div>
+              Title: <a href="/show/{{.Id}}">{{.Title}}</a>
+            </div>
             <div>Body: {{.Body}}</div>
           </div>
         {{end}}
