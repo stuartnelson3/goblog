@@ -4,10 +4,13 @@
 
 module:testrunner
 
-GET     /            App.Index
-GET     /show/:id    App.Show
-GET     /new         App.New
-POST    /create      App.Create
+GET     /               App.Index
+GET     /new            App.New
+POST    /new            App.Create
+GET     /show/:id       App.Show
+GET     /edit/:id       App.Edit
+PUT     /show/:id       App.Update
+GET     /destroy/:id    App.Destroy
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

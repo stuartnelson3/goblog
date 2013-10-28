@@ -34,3 +34,13 @@ func (p Post) Create() error {
     err := dbmap.Insert(&p)
     return err
 }
+
+func (p Post) Update() error {
+    _, err := dbmap.Update(&p)
+    return err
+}
+
+func (p Post) Destroy() error {
+    _, err := dbmap.Delete(&p)
+    return err
+}

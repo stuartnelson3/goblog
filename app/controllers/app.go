@@ -39,3 +39,26 @@ func (c App) Create(post models.Post) revel.Result {
     c.Flash.Success("Save successful!")
     return c.Redirect(App.Index)
 }
+
+func (c App) Destroy(id int) revel.Result {
+    post := models.Post{}.Find(id)
+    if post == nil {
+        c.Flash.Error("Post not found!")
+        return c.Redirect(App.Index)
+    }
+    err := post.Destroy()
+    if err != nil {
+        c.Flash.Error("Delete failed!")
+        return c.Redirect(App.Index)
+    }
+    c.Flash.Success("Delete successful!")
+    return c.Redirect(App.Index)
+}
+
+// add edit and update actions
+func (c App) Edit() revel.Result {
+    return c.Render()
+}
+func (c App) Update() revel.Result {
+    return c.Render()
+}
