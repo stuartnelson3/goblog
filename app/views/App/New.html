@@ -4,9 +4,35 @@
 
 <div class="container">
   <div class="row">
+
     <div class="span6">
       {{template "flash.html" .}}
     </div>
+
+    <div class="span6">
+      <form method="POST" action="{{url "App.Create" }}">
+
+        {{with $field := field "post.Title" .}}
+        <p class="{{$field.ErrorClass}}">
+        <strong>Title:</strong>
+        <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
+        * <span class="error">{{$field.Error}}</span>
+        </p>
+        {{end}}
+
+        {{with $field := field "post.Body" .}}
+        <p class="{{$field.ErrorClass}}">
+        <strong>Body:</strong>
+        <textarea type="text" rows="20" cols="60" name="{{$field.Name}}" value="{{$field.Flash}}">
+        </textarea>
+        * <span class="error">{{$field.Error}}</span>
+        </p>
+        {{end}}
+
+        <input type="submit" value="Post">
+      </form>
+    </div>
+
   </div>
 </div>
 

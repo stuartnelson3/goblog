@@ -2,36 +2,43 @@ package controllers
 
 import (
     "github.com/robfig/revel"
-    "blog/db"
     "blog/app/models"
+    "fmt"
 )
 
 type App struct {
     *revel.Controller
 }
 
-var dbmap = *dbsetup.DbSetup()
-
 func (c App) Index() revel.Result {
     pageHeader := "Main page!!"
-    var posts []*models.Post
-    query := "select * from posts"
-    dbmap.Select(&posts, query)
+    posts := models.Post{}.All()
     return c.Render(posts, pageHeader)
 }
 
 func (c App) Show(id int) revel.Result {
     pageHeader := "Show page!!"
-    obj, _ := dbmap.Get(models.Post{}, id)
-    if obj == nil {
+    post := models.Post{}.Find(id)
+    if post == nil {
         c.Response.Status = 404
         return c.NotFound("Not found")
     }
-    post := obj.(*models.Post)
     return c.Render(post, pageHeader)
 }
 
 func (c App) New() revel.Result {
     pageHeader := "New post!!"
     return c.Render(pageHeader)
+}
+
+func (c App) Create(p models.Post) revel.Result {
+    fmt.Printf("post=%+v", p)
+    // err := p.Create()
+    // if err != nil {
+    //     c.Flash.Error("Save failed!")
+    //     return c.Redirect(App.New)
+    // }
+    // c.Flash.Success("Save successful!")
+    // return c.Redirect(App.Index)
+    return c.Redirect(App.New)
 }
