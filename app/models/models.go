@@ -10,9 +10,6 @@ type Post struct {
     Body string
 }
 
-// implement active record basic queries
-// find, all, create, save
-
 func (p Post) All() []*Post {
     var posts []*Post
     dbmap.Select(&posts, "select * from posts")

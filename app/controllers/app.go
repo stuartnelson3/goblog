@@ -55,10 +55,10 @@ func (c App) Destroy(id int) revel.Result {
     return c.Redirect(App.Index)
 }
 
-// add edit and update actions
 func (c App) Edit() revel.Result {
     return c.Render()
 }
+
 func (c App) Update() revel.Result {
     return c.Render()
 }
