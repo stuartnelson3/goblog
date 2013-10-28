@@ -2,30 +2,29 @@
 {{template "header.html" .}}
 {{template "hero.html" .}}
 
-<div class="container">
-  <div class="row">
+<div>
+  <div>
 
-    <div class="span6">
+    <div>
       {{template "flash.html" .}}
     </div>
 
-    <div class="span6">
+    <div>
       <form method="POST" action="{{url "App.Create" }}">
 
         {{with $field := field "post.Title" .}}
         <p class="{{$field.ErrorClass}}">
         <strong>Title:</strong>
         <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
-        * <span class="error">{{$field.Error}}</span>
+        * <span>{{$field.Error}}</span>
         </p>
         {{end}}
 
         {{with $field := field "post.Body" .}}
         <p class="{{$field.ErrorClass}}">
         <strong>Body:</strong>
-        <textarea type="text" rows="20" cols="60" name="{{$field.Name}}" value="{{$field.Flash}}">
-        </textarea>
-        * <span class="error">{{$field.Error}}</span>
+        <textarea type="text" rows="20" cols="60" name="{{$field.Name}}"></textarea>
+        * <span>{{$field.Error}}</span>
         </p>
         {{end}}
 
