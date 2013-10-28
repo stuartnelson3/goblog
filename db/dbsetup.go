@@ -4,7 +4,6 @@ import (
     "github.com/coopernurse/gorp"
     _ "github.com/bmizerany/pq"
     "database/sql"
-    // "blog/app/models"
     "os"
     "log"
 )
