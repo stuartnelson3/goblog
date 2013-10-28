@@ -3,7 +3,6 @@ package controllers
 import (
     "github.com/robfig/revel"
     "blog/app/models"
-    "fmt"
 )
 
 type App struct {
@@ -31,14 +30,12 @@ func (c App) New() revel.Result {
     return c.Render(pageHeader)
 }
 
-func (c App) Create(p models.Post) revel.Result {
-    fmt.Printf("post=%+v", p)
-    // err := p.Create()
-    // if err != nil {
-    //     c.Flash.Error("Save failed!")
-    //     return c.Redirect(App.New)
-    // }
-    // c.Flash.Success("Save successful!")
-    // return c.Redirect(App.Index)
-    return c.Redirect(App.New)
+func (c App) Create(post models.Post) revel.Result {
+    err := post.Create()
+    if err != nil {
+        c.Flash.Error("Save failed!")
+        return c.Redirect(App.New)
+    }
+    c.Flash.Success("Save successful!")
+    return c.Redirect(App.Index)
 }
