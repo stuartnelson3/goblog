@@ -11,7 +11,8 @@
     {{ with .post }}
     <div>
       <div>Title: {{.Title}}</div>
-      <div>Body: {{.Body}}</div>
+      <div>Body:</div>
+      <div>{{raw .Body}}</div>
     </div>
     {{end}}
 

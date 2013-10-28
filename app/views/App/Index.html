@@ -16,7 +16,7 @@
             <div>
               Title: <a href="/show/{{.Id}}">{{.Title}}</a>
             </div>
-            <div>Body: {{.Body}}</div>
+            <div>Body: {{raw .Body}}</div>
             <a href="/destroy/{{.Id}}">Delete Post</a>
           </div>
         {{end}}
