@@ -1,6 +1,9 @@
 package models
 
-import "blog/db"
+import (
+    "blog/db"
+    "github.com/russross/blackfriday"
+)
 var tables = map[string]interface{}{"posts":Post{}}
 var dbmap = *dbsetup.DbSetup(tables)
 
@@ -28,11 +31,13 @@ func (p Post) Find(id int) *Post {
 }
 
 func (p Post) Create() error {
+    p.ParseBody()
     err := dbmap.Insert(&p)
     return err
 }
 
 func (p Post) Update() error {
+    p.ParseBody()
     _, err := dbmap.Update(&p)
     return err
 }
@@ -40,4 +45,9 @@ func (p Post) Update() error {
 func (p Post) Destroy() error {
     _, err := dbmap.Delete(&p)
     return err
+}
+
+func (p *Post) ParseBody() {
+    body_as_byte_slice := []byte(p.Body)
+    p.Body = string(blackfriday.MarkdownCommon(body_as_byte_slice))
 }
