@@ -2,6 +2,7 @@ package models
 
 import (
     "blog/db"
+    "strings"
     "github.com/russross/blackfriday"
 )
 var tables = map[string]interface{}{"posts":Post{}}
@@ -11,6 +12,7 @@ type Post struct {
     Id int64
     Title string
     Body string
+    Slug string
 }
 
 func (p Post) All() []*Post {
@@ -44,6 +46,7 @@ func (p Post) FindBy(field string, cond string) *Post {
 
 func (p Post) Create() error {
     p.ParseBody()
+    p.CreateSlug()
     err := dbmap.Insert(&p)
     return err
 }
@@ -57,6 +60,13 @@ func (p Post) Update() error {
 func (p Post) Destroy() error {
     _, err := dbmap.Delete(&p)
     return err
+}
+
+func (p *Post) CreateSlug() {
+    lower := strings.ToLower(p.Title)
+    fields := strings.Fields(lower)
+    slug := strings.Join(fields, "-")
+    p.Slug = slug
 }
 
 func (p *Post) ParseBody() {
