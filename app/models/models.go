@@ -30,6 +30,18 @@ func (p Post) Find(id int) *Post {
     return obj.(*Post)
 }
 
+func (p Post) FindBy(field string, cond string) *Post {
+    query := "select * from posts where "+field+"="+cond+" limit 1"
+    obj, err := dbmap.Select(Post{}, query)
+    if err != nil {
+        panic(err)
+    }
+    if obj == nil {
+        return nil
+    }
+    return obj[0].(*Post)
+}
+
 func (p Post) Create() error {
     p.ParseBody()
     err := dbmap.Insert(&p)
