@@ -14,7 +14,7 @@
         {{ with . }}
           <div>
             <div>
-              Title: <a href="/show/{{.Id}}">{{.Title}}</a>
+              Title: <a href="/{{.Slug}}">{{.Title}}</a>
             </div>
             <div>Body: {{raw .Body}}</div>
             <a href="/destroy/{{.Id}}">Delete Post</a>

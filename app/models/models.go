@@ -3,6 +3,7 @@ package models
 import (
     "blog/db"
     "strings"
+    "regexp"
     "github.com/russross/blackfriday"
 )
 var tables = map[string]interface{}{"posts":Post{}}
@@ -33,7 +34,7 @@ func (p Post) Find(id int) *Post {
 }
 
 func (p Post) FindBy(field string, cond string) *Post {
-    query := "select * from posts where "+field+"="+cond+" limit 1"
+    query := "select * from posts where "+field+"='"+cond+"' limit 1"
     obj, err := dbmap.Select(Post{}, query)
     if err != nil {
         panic(err)
@@ -66,7 +67,9 @@ func (p *Post) CreateSlug() {
     lower := strings.ToLower(p.Title)
     fields := strings.Fields(lower)
     slug := strings.Join(fields, "-")
-    p.Slug = slug
+    re := regexp.MustCompile("[^0-9A-Za-z_-]")
+    cleaned_slug := re.ReplaceAllLiteralString(slug, "")
+    p.Slug = cleaned_slug
 }
 
 func (p *Post) ParseBody() {

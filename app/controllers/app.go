@@ -15,9 +15,9 @@ func (c App) Index() revel.Result {
     return c.Render(posts, pageHeader)
 }
 
-func (c App) Show(id string) revel.Result {
+func (c App) Show(slug string) revel.Result {
     pageHeader := "Show page!!"
-    post := models.Post{}.FindBy("id", id)
+    post := models.Post{}.FindBy("slug", slug)
     if post == nil {
         c.Response.Status = 404
         return c.NotFound("Not found")
