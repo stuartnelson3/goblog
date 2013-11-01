@@ -49,22 +49,22 @@ func (p Post) FindBy(field string, cond string) *Post {
     return obj[0].(*Post)
 }
 
-func (p Post) Create() error {
+func (p *Post) Create() error {
     p.ParseBody()
     p.CreateSlug()
     p.CreateTimestamp()
-    err := dbmap.Insert(&p)
+    err := dbmap.Insert(p)
     return err
 }
 
-func (p Post) Update() error {
+func (p *Post) Update() error {
     p.ParseBody()
-    _, err := dbmap.Update(&p)
+    _, err := dbmap.Update(p)
     return err
 }
 
-func (p Post) Destroy() error {
-    _, err := dbmap.Delete(&p)
+func (p *Post) Destroy() error {
+    _, err := dbmap.Delete(p)
     return err
 }
 
