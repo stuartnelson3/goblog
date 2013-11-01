@@ -33,7 +33,7 @@ func (c App) New() revel.Result {
 func (c App) Create(post models.Post) revel.Result {
     err := post.Create()
     if err != nil {
-        c.Flash.Error("Save failed!")
+        c.Flash.Error("Save failed!", err)
         return c.Redirect(App.New)
     }
     c.Flash.Success("Save successful!")
