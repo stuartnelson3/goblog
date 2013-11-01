@@ -17,7 +17,7 @@ func DbSetup(m map[string]interface{}) (dbmap *gorp.DbMap) {
     pass := CreatePgSpec("password", os.Getenv("HEROKU_POSTGRESQL_PASS"))
     dbname := CreatePgSpec("dbname", os.Getenv("HEROKU_POSTGRESQL_DBNAME"))
     host := CreatePgSpec("host", os.Getenv("HEROKU_POSTGRESQL_HOST"))
-    db, _ := sql.Open("postgres", user+pass+host+dbname+"sslmode=disable") // "prod"
+    db, _ := sql.Open("postgres", user+pass+host+dbname) // "prod"
     dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
     dbmap.TraceOn("query:", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
 
