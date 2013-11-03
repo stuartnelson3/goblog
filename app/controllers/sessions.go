@@ -21,7 +21,7 @@ func (c Session) Create(user models.User) revel.Result {
         c.Flash.Error("Bad login!")
         return c.Redirect(Session.New)
     }
-    c.Session["token"] = os.Getenv("TOKEN")
+    c.Session["token"] = os.Getenv("BLOGTOKEN")
     c.Flash.Success("Successful login!")
     return c.Redirect(App.Index)
 }
