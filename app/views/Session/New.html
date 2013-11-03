@@ -13,7 +13,7 @@
         </p>
         {{end}}
 
-        {{with $field := field "post.Password" .}}
+        {{with $field := field "user.Password" .}}
         <p class="{{$field.ErrorClass}}">
         <strong>Password:</strong>
         <input type="password" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
