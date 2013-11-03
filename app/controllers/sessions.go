@@ -3,6 +3,7 @@ package controllers
 import (
     "github.com/robfig/revel"
     "blog/app/models"
+    "os"
 )
 
 type Session struct {
@@ -20,6 +21,13 @@ func (c Session) Create(user models.User) revel.Result {
         c.Flash.Error("Bad login!")
         return c.Redirect(Session.New)
     }
+    c.Session["token"] = os.Getenv("TOKEN")
     c.Flash.Success("Successful login!")
+    return c.Redirect(App.Index)
+}
+
+func (c Session) Destroy() revel.Result {
+    delete(c.Session, "token")
+    c.Flash.Success("Logout successful")
     return c.Redirect(App.Index)
 }

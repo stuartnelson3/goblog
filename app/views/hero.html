@@ -2,6 +2,8 @@
   <h1><a href="/">{{.pageHeader}}</a></h1>
 </header>
 
+<a href="{{url "Session.Destroy" }}">logout</a>
+
 <div>
   {{template "flash.html" .}}
 </div>

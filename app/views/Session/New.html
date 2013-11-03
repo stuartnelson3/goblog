@@ -4,7 +4,24 @@
 
 <div>
   <div>
+      <form method="POST" action="{{url "Session.Create" }}">
 
+        {{with $field := field "user.Name" .}}
+        <p class="{{$field.ErrorClass}}">
+        <strong>Login:</strong>
+        <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
+        </p>
+        {{end}}
+
+        {{with $field := field "post.Password" .}}
+        <p class="{{$field.ErrorClass}}">
+        <strong>Password:</strong>
+        <input type="password" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
+        </p>
+        {{end}}
+
+        <input type="submit" value="Post">
+      </form>
   </div>
 </div>
 

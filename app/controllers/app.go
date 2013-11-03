@@ -3,10 +3,15 @@ package controllers
 import (
     "github.com/robfig/revel"
     "blog/app/models"
+    "os"
 )
 
 type App struct {
     *revel.Controller
+}
+
+func (c App) CheckToken() bool {
+    return c.Session["token"] == os.Getenv("BLOGTOKEN")
 }
 
 func (c App) Index() revel.Result {
@@ -26,11 +31,17 @@ func (c App) Show(slug string) revel.Result {
 }
 
 func (c App) New() revel.Result {
+    if !c.CheckToken() {
+        return c.Redirect(App.Index)
+    }
     pageHeader := "New post!!"
     return c.Render(pageHeader)
 }
 
 func (c App) Create(post models.Post) revel.Result {
+    if !c.CheckToken() {
+        return c.Redirect(App.Index)
+    }
     err := post.Create()
     if err != nil {
         c.Flash.Error("Save failed!", err)
@@ -41,6 +52,9 @@ func (c App) Create(post models.Post) revel.Result {
 }
 
 func (c App) Destroy(id int) revel.Result {
+    if !c.CheckToken() {
+        return c.Redirect(App.Index)
+    }
     post := models.Post{}.Find(id)
     if post == nil {
         c.Flash.Error("Post not found!")

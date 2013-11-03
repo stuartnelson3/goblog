@@ -15,6 +15,7 @@ GET     /:slug          App.Show
 
 GET     /create/session Session.New
 POST    /create/session Session.Create
+GET     /logout/session Session.Destroy
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
