@@ -32,7 +32,7 @@ func (c App) Show(slug string) revel.Result {
 
 func (c App) New() revel.Result {
     if !c.CheckToken() {
-        return c.Redirect(App.Index)
+        return c.Redirect(Session.Destroy)
     }
     pageHeader := "New post!!"
     return c.Render(pageHeader)
@@ -40,7 +40,7 @@ func (c App) New() revel.Result {
 
 func (c App) Create(post models.Post) revel.Result {
     if !c.CheckToken() {
-        return c.Redirect(App.Index)
+        return c.Redirect(Session.Destroy)
     }
     err := post.Create()
     if err != nil {
@@ -53,7 +53,7 @@ func (c App) Create(post models.Post) revel.Result {
 
 func (c App) Destroy(id int) revel.Result {
     if !c.CheckToken() {
-        return c.Redirect(App.Index)
+        return c.Redirect(Session.Destroy)
     }
     post := models.Post{}.Find(id)
     if post == nil {
