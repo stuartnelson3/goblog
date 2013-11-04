@@ -5,7 +5,6 @@
 <div>
   <div>
     <div>
-      <a href="/new">New Post</a>
       {{range .posts}}
 
         {{ with . }}
@@ -15,7 +14,6 @@
             </div>
             <div>{{.CreatedAt}}</div>
             <div>Body: {{raw .Body}}</div>
-            <a href="/destroy/{{.Id}}">Delete Post</a>
           </div>
         {{end}}
 

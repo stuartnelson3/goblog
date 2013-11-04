@@ -15,6 +15,15 @@ func (c Session) New() revel.Result {
     return c.Render(pageHeader)
 }
 
+func (c Session) Show() revel.Result {
+    if !c.CheckToken() {
+        return c.Redirect(Session.Destroy)
+    }
+    pageHeader := "Session stuff"
+    posts := models.Post{}.All()
+    return c.Render(pageHeader, posts)
+}
+
 func (c Session) Create(user models.User) revel.Result {
     err := user.Verify()
     if err != nil {

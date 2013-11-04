@@ -7,7 +7,6 @@ module:testrunner
 GET     /               App.Index
 GET     /new            App.New
 POST    /new            App.Create
-GET     /show/:id       App.Show
 GET     /edit/:id       App.Edit
 PUT     /show/:id       App.Update
 GET     /destroy/:id    App.Destroy
@@ -15,6 +14,7 @@ GET     /:slug          App.Show
 
 GET     /create/session Session.New
 POST    /create/session Session.Create
+GET     /show/session   Session.Show
 GET     /logout/session Session.Destroy
 
 # Ignore favicon requests
