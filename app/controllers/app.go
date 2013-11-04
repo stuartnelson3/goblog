@@ -68,11 +68,3 @@ func (c App) Destroy(id int) revel.Result {
     c.Flash.Success("Delete successful!")
     return c.Redirect(App.Index)
 }
-
-func (c App) Edit() revel.Result {
-    return c.Render()
-}
-
-func (c App) Update() revel.Result {
-    return c.Render()
-}

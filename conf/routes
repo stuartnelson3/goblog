@@ -7,8 +7,6 @@ module:testrunner
 GET     /               App.Index
 GET     /new            App.New
 POST    /new            App.Create
-GET     /edit/:id       App.Edit
-PUT     /show/:id       App.Update
 GET     /destroy/:id    App.Destroy
 GET     /:slug          App.Show
 
