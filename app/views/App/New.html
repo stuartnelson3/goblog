@@ -6,10 +6,6 @@
   <div>
 
     <div>
-      {{template "flash.html" .}}
-    </div>
-
-    <div>
       <form method="POST" action="{{url "App.Create" }}">
 
         {{with $field := field "post.Title" .}}

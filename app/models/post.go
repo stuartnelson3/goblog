@@ -2,6 +2,9 @@ package models
 
 import (
     "blog/db"
+    "time"
+    "fmt"
+    "strconv"
     "strings"
     "regexp"
     "github.com/russross/blackfriday"
@@ -14,6 +17,7 @@ type Post struct {
     Title string
     Body string
     Slug string
+    CreatedAt string
 }
 
 func (p Post) All() []*Post {
@@ -39,27 +43,28 @@ func (p Post) FindBy(field string, cond string) *Post {
     if err != nil {
         panic(err)
     }
-    if obj == nil {
+    if len(obj) == 0 {
         return nil
     }
     return obj[0].(*Post)
 }
 
-func (p Post) Create() error {
+func (p *Post) Create() error {
     p.ParseBody()
     p.CreateSlug()
-    err := dbmap.Insert(&p)
+    p.CreateTimestamp()
+    err := dbmap.Insert(p)
     return err
 }
 
-func (p Post) Update() error {
+func (p *Post) Update() error {
     p.ParseBody()
-    _, err := dbmap.Update(&p)
+    _, err := dbmap.Update(p)
     return err
 }
 
-func (p Post) Destroy() error {
-    _, err := dbmap.Delete(&p)
+func (p *Post) Destroy() error {
+    _, err := dbmap.Delete(p)
     return err
 }
 
@@ -75,4 +80,12 @@ func (p *Post) CreateSlug() {
 func (p *Post) ParseBody() {
     body_as_byte_slice := []byte(p.Body)
     p.Body = string(blackfriday.MarkdownCommon(body_as_byte_slice))
+}
+
+func (p *Post) CreateTimestamp() {
+    createdAt := time.Now()
+    month := fmt.Sprint(createdAt.Month())[0:3]
+    day := strconv.Itoa(createdAt.Day())
+    year := strconv.Itoa(createdAt.Year())
+    p.CreatedAt = month + " " + day + " " + year
 }

@@ -5,10 +5,6 @@
 <div>
   <div>
     <div>
-      {{template "flash.html" .}}
-    </div>
-    <div>
-      <a href="/new">New Post</a>
       {{range .posts}}
 
         {{ with . }}
@@ -16,8 +12,8 @@
             <div>
               Title: <a href="/{{.Slug}}">{{.Title}}</a>
             </div>
+            <div>{{.CreatedAt}}</div>
             <div>Body: {{raw .Body}}</div>
-            <a href="/destroy/{{.Id}}">Delete Post</a>
           </div>
         {{end}}
 

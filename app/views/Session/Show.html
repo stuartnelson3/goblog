@@ -1,0 +1,19 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+{{template "hero.html" .}}
+
+<div>
+
+
+<a href="{{url "Session.Destroy" }}">logout</a>
+  <a href="/new">New Post</a>
+
+  {{range .posts}}
+    {{ with . }}
+      <div>Title: <a href="/{{.Slug}}">{{.Title}}</a></div>
+      <a href="/destroy/{{.Id}}">Delete Post</a>
+    {{end}}
+  {{end}}
+
+</div>
+
