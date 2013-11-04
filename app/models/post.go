@@ -43,7 +43,7 @@ func (p Post) FindBy(field string, cond string) *Post {
     if err != nil {
         panic(err)
     }
-    if obj == nil {
+    if len(obj) == 0 {
         return nil
     }
     return obj[0].(*Post)
