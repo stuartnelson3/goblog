@@ -25,7 +25,7 @@ func (c App) Show(slug string) revel.Result {
     post := models.Post{}.FindBy("slug", slug)
     if post == nil {
         c.Response.Status = 404
-        return c.NotFound("Not found")
+        return c.NotFound("Doesn't Exist")
     }
     return c.Render(post, pageHeader)
 }
