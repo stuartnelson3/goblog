@@ -52,6 +52,9 @@ func (c App) Create(post models.Post) revel.Result {
 }
 
 func (c App) MarkdownPreview(post models.Post) revel.Result {
+    if !c.CheckToken() {
+        return c.Redirect(Session.Destroy)
+    }
     post.ParseBody()
     preview := post.Body
     return c.Render(preview)
