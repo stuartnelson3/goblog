@@ -51,6 +51,12 @@ func (c App) Create(post models.Post) revel.Result {
     return c.Redirect(App.Index)
 }
 
+func (c App) MarkdownPreview(post models.Post) revel.Result {
+    post.ParseBody()
+    preview := post.Body
+    return c.Render(preview)
+}
+
 func (c App) Destroy(id int) revel.Result {
     if !c.CheckToken() {
         return c.Redirect(Session.Destroy)
