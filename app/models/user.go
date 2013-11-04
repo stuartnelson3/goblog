@@ -5,6 +5,7 @@ import (
     "os"
     "crypto/sha512"
     "io"
+    "encoding/hex"
 )
 
 type User struct {
@@ -22,6 +23,6 @@ func (u *User) Verify() error {
 func (u *User) CorrectPassword() bool {
     hash := sha512.New()
     io.WriteString(hash, u.Password)
-    return string(hash.Sum(nil)) ==
+    return hex.EncodeToString(hash.Sum(nil)) ==
         os.Getenv("HASHED_PASSWORD")
 }
