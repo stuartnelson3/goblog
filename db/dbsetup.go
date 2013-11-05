@@ -9,7 +9,7 @@ import (
 )
 
 func DbSetup(m map[string]interface{}) (dbmap *gorp.DbMap) {
-    url := os.Getenv("HEROKU_POSTGRESQL_VIOLET_URL")
+    url := os.Getenv("DATABASE_URL")
     connection, _ := pq.ParseURL(url)
     connection += " sslmode=require"
     db, _ := sql.Open("postgres", connection)
