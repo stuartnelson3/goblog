@@ -95,5 +95,5 @@ func (c App) Destroy(id int) revel.Result {
         return c.Redirect(App.Index)
     }
     c.Flash.Success("Delete successful!")
-    return c.Redirect(App.Index)
+    return c.Redirect(Session.Show)
 }
