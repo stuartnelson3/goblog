@@ -13,7 +13,7 @@ push like you normally would to heroku
 ## logging in
 you have to set the environment variables that will be used for authentication.
 they are BLOGTOKEN, HASHED_PASSWORD, and HASHED_USER. Use the env var setting
-tool included in this repo.
+executable, `setup_env_vars`.
 
 ## postgres
 there is a bit of setup to get your database working
