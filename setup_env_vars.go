@@ -37,9 +37,8 @@ func GetVariable(env *string) {
 }
 
 func GetAppName(app *string, out *bytes.Buffer) {
-    fmt.Printf("What is the name of your app?\n")
+    fmt.Printf("\nPick your app from the list of available apps:\n")
     time.Sleep(time.Millisecond * 500)
-    fmt.Printf("Here is the available list:\n")
 
     cmd := exec.Command("heroku", "apps")
     cmd.Stdout = out
@@ -48,6 +47,7 @@ func GetAppName(app *string, out *bytes.Buffer) {
     fmt.Println(out.String())
     out.Reset()
 
+    fmt.Printf("What is the name of your app?\n")
     fmt.Scanln(app)
 }
 
