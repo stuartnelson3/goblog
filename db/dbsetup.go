@@ -11,8 +11,10 @@ import (
 func DbSetup(m map[string]interface{}) (dbmap *gorp.DbMap) {
     url := os.Getenv("DATABASE_URL")
     connection, _ := pq.ParseURL(url)
-    connection += " sslmode=require"
+    connection += " sslmode=require" // prod
+    // connection += " sslmode=disable" // dev
     db, _ := sql.Open("postgres", connection)
+
     dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
     dbmap.TraceOn("query:", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
 

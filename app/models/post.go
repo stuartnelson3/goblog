@@ -22,7 +22,7 @@ type Post struct {
 
 func (p Post) All() []*Post {
     var posts []*Post
-    dbmap.Select(&posts, "select * from posts")
+    dbmap.Select(&posts, "select * from posts order by id desc")
     return posts
 }
 
