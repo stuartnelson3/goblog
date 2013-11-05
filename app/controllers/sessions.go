@@ -32,7 +32,7 @@ func (c Session) Create(user models.User) revel.Result {
     }
     c.Session["token"] = os.Getenv("BLOGTOKEN")
     c.Flash.Success("Successful login!")
-    return c.Redirect(App.Index)
+    return c.Redirect(Session.Show)
 }
 
 func (c Session) Destroy() revel.Result {

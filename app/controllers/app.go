@@ -1,6 +1,7 @@
 package controllers
 
 import (
+    "code.google.com/p/go.net/websocket"
     "github.com/robfig/revel"
     "blog/app/models"
     "os"
@@ -51,13 +52,32 @@ func (c App) Create(post models.Post) revel.Result {
     return c.Redirect(App.Index)
 }
 
-func (c App) MarkdownPreview(post models.Post) revel.Result {
-    if !c.CheckToken() {
-        return c.Redirect(Session.Destroy)
+func (c App) MarkdownPreview(ws *websocket.Conn) revel.Result {
+    newMarkdown := make(chan string)
+    go func() {
+        var msg string
+        for {
+            err := websocket.Message.Receive(ws, &msg)
+            if err != nil {
+                close(newMarkdown)
+                return
+            }
+            post := models.Post{Body: msg}
+            post.ParseBody()
+            newMarkdown <- post.Body
+        }
+    }()
+
+    for {
+        select {
+        case msg, ok := <-newMarkdown:
+            if !ok {
+                return nil
+            }
+            websocket.JSON.Send(ws, &msg)
+        }
     }
-    post.ParseBody()
-    preview := post.Body
-    return c.Render(preview)
+    return nil
 }
 
 func (c App) Destroy(id int) revel.Result {
@@ -75,5 +95,5 @@ func (c App) Destroy(id int) revel.Result {
         return c.Redirect(App.Index)
     }
     c.Flash.Success("Delete successful!")
-    return c.Redirect(App.Index)
+    return c.Redirect(Session.Show)
 }
