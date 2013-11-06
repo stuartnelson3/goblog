@@ -8,7 +8,6 @@ import (
     "crypto/sha512"
     "io"
     "encoding/hex"
-    "time"
     "bufio"
     "os"
     "code.google.com/p/gopass"
@@ -16,12 +15,11 @@ import (
 
 func main() {
     var app string
-    var out bytes.Buffer
 
     envVariables :=
         map[string]string{"BLOGTOKEN":"", "HASHED_USERNAME":"", "HASHED_PASSWORD":""}
 
-    GetAppName(&app, out)
+    GetAppName(&app)
 
     envVariables = GetEnvVariables(envVariables)
 
@@ -29,7 +27,7 @@ func main() {
         h := sha512.New()
         io.WriteString(h, value)
         hashedValue := hex.EncodeToString(h.Sum(nil))
-        SetEnvVar(envVar, hashedValue, app, out)
+        SetEnvVar(envVar, hashedValue, app)
     }
 
     fmt.Println("Finished setting up environment variables.")
@@ -52,24 +50,32 @@ func GetEnvVariables(envVariables map[string]string) map[string]string {
     return envVariables
 }
 
-func GetAppName(app *string, out bytes.Buffer) {
+func GetAppName(app *string) {
+    var stdout, stderr bytes.Buffer
     fmt.Printf("\nPick your app from the list of available apps:\n")
-    time.Sleep(time.Millisecond * 500)
 
     cmd := exec.Command("heroku", "apps")
-    cmd.Stdout = &out
-    cmd.Stderr = &out
+    cmd.Stdout = &stdout
+    cmd.Stderr = &stderr
     cmd.Run()
-    fmt.Println(out.String())
+    if err := stderr.String(); len(err) > 0 {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+    fmt.Println(stdout.String())
 
     fmt.Printf("What is the name of your app?\n")
     fmt.Scanln(app)
 }
 
-func SetEnvVar(envVar string, hashedValue string, app string, out bytes.Buffer) {
-    cmd := exec.Command("heroku", "config:set", envVar+"="+hashedValue, "--app", app)
-    cmd.Stdout = &out
-    cmd.Stderr = &out
+func SetEnvVar(envVar string, hashedValue string, app string) {
+    var stdout bytes.Buffer
+    cmd := exec.Command("echo", "heroku", "config:set", envVar+"="+hashedValue, "--app", app)
+    cmd.Stderr = &stdout
     cmd.Run()
-    fmt.Println(out.String())
+    if err := stdout.String(); len(err) > 0 {
+        fmt.Println(err)
+        return
+    }
+    fmt.Printf("Successfully set %s for app %s\n", envVar, app)
 }
