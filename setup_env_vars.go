@@ -2,6 +2,7 @@ package main
 
 import (
     "os/exec"
+    "strings"
     "bytes"
     "fmt"
     "crypto/sha512"
@@ -10,6 +11,7 @@ import (
     "time"
     "bufio"
     "os"
+    "code.google.com/p/gopass"
 )
 
 func main() {
@@ -35,8 +37,15 @@ func main() {
 
 func GetEnvVariables(envVariables map[string]string) map[string]string {
     scanner := bufio.NewScanner(os.Stdin)
+    var password string
     for envVar, _ := range envVariables {
-        fmt.Printf("Enter the value to be hashed for %s\n", envVar)
+        prompt := "Enter the value to be hashed for " + envVar + "\n"
+        if envVar == "HASHED_PASSWORD" {
+            password, _ = gopass.GetPass(prompt)
+            scanner = bufio.NewScanner(strings.NewReader(password))
+        } else {
+            fmt.Printf(prompt)
+        }
         scanner.Scan()
         envVariables[envVar] = scanner.Text()
     }
