@@ -14,12 +14,9 @@ import (
 )
 
 func main() {
-    var app string
-
+    app := GetAppName()
     envVariables :=
         map[string]string{"BLOGTOKEN":"", "HASHED_USERNAME":"", "HASHED_PASSWORD":""}
-
-    GetAppName(&app)
 
     envVariables = GetEnvVariables(envVariables)
 
@@ -50,7 +47,8 @@ func GetEnvVariables(envVariables map[string]string) map[string]string {
     return envVariables
 }
 
-func GetAppName(app *string) {
+func GetAppName() string {
+    var app string
     var stdout, stderr bytes.Buffer
     fmt.Printf("\nPick your app from the list of available apps:\n")
 
@@ -65,12 +63,13 @@ func GetAppName(app *string) {
     fmt.Println(stdout.String())
 
     fmt.Printf("What is the name of your app?\n")
-    fmt.Scanln(app)
+    fmt.Scanln(&app)
+    return app
 }
 
 func SetEnvVar(envVar string, hashedValue string, app string) {
     var stdout bytes.Buffer
-    cmd := exec.Command("echo", "heroku", "config:set", envVar+"="+hashedValue, "--app", app)
+    cmd := exec.Command("heroku", "config:set", envVar+"="+hashedValue, "--app", app)
     cmd.Stderr = &stdout
     cmd.Run()
     if err := stdout.String(); len(err) > 0 {
