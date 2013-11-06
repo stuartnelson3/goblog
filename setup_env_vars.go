@@ -31,16 +31,19 @@ func main() {
 }
 
 func GetEnvVariables(envVariables map[string]string) map[string]string {
-    scanner := bufio.NewScanner(os.Stdin)
+    var scanner *bufio.Scanner
     var password string
+    var reader io.Reader
     for envVar, _ := range envVariables {
         prompt := "Enter the value to be hashed for " + envVar + "\n"
         if envVar == "HASHED_PASSWORD" {
             password, _ = gopass.GetPass(prompt)
-            scanner = bufio.NewScanner(strings.NewReader(password))
+            reader = strings.NewReader(password)
         } else {
             fmt.Printf(prompt)
+            reader = os.Stdin
         }
+        scanner = bufio.NewScanner(reader)
         scanner.Scan()
         envVariables[envVar] = scanner.Text()
     }
