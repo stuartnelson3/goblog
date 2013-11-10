@@ -43,6 +43,15 @@ func (c App) Create(post models.Post) revel.Result {
     if !c.CheckToken() {
         return c.Redirect(Session.Destroy)
     }
+
+    c.Validation.Required(post.Title).Message("A Title is Required")
+    c.Validation.Required(post.Body).Message("A Body is Required")
+    if c.Validation.HasErrors() {
+        c.Validation.Keep()
+        c.FlashParams()
+        return c.Redirect(App.New)
+    }
+
     err := post.Create()
     if err != nil {
         c.Flash.Error("Save failed!", err)
