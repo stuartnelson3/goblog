@@ -10,10 +10,12 @@ import (
     "encoding/hex"
     "bufio"
     "os"
+    "sync"
     "code.google.com/p/gopass"
 )
 
 func main() {
+    w := &sync.WaitGroup{}
     app := GetAppName()
     envVariables :=
         map[string]string{"BLOGTOKEN":"", "HASHED_USERNAME":"", "HASHED_PASSWORD":""}
@@ -21,13 +23,24 @@ func main() {
     envVariables = GetEnvVariables(envVariables)
 
     for envVar, value := range envVariables {
-        h := sha512.New()
-        io.WriteString(h, value)
-        hashedValue := hex.EncodeToString(h.Sum(nil))
-        SetEnvVar(envVar, hashedValue, app)
+        w.Add(1)
+        go HashAndSet(envVar, value, app, w)
     }
 
+    w.Wait()
     fmt.Println("Finished setting up environment variables.")
+}
+
+func HashAndSet(envVar string, value string, app string, w *sync.WaitGroup) {
+    hashedValue := HashValue(value)
+    SetEnvVar(envVar, hashedValue, app)
+    w.Done()
+}
+
+func HashValue(value string) string {
+    h := sha512.New()
+    io.WriteString(h, value)
+    return hex.EncodeToString(h.Sum(nil))
 }
 
 func GetEnvVariables(envVariables map[string]string) map[string]string {
