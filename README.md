@@ -21,10 +21,7 @@ there is a bit of setup to get your database working
 first, you need to add postgres to your herokuapp:
 `$ heroku addons:add heroku-postgresql:dev`
 
-copy the name of the environment variable that holds your postgres info into
-the dbsetup.go file on line 12
-
-finally, you need to change the datatype for the body column in posts
+then you need to change the datatype for the body column in posts:
 
 ```
 $ heroku pg:psql
