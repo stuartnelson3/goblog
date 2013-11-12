@@ -8,6 +8,9 @@ logged in you can add new posts at `/new`.
 easiest way to get it up is using heroku. create your heroku site, then set the buildpack on it:
 `$ heroku config:add BUILDPACK_URL=https://github.com/robfig/heroku-buildpack-go-revel.git`
 
+you also need to add websocket support:
+`$ heroku labs:enable websockets -a <your-app-name>`
+
 push like you normally would to heroku
 
 ## logging in
