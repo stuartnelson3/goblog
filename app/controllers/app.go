@@ -78,13 +78,11 @@ func (c App) MarkdownPreview(ws *websocket.Conn) revel.Result {
     }()
 
     for {
-        select {
-        case markdown, ok := <-newMarkdown:
-            if !ok {
-                return nil
-            }
-            websocket.JSON.Send(ws, &markdown)
+        markdown, ok := <-newMarkdown
+        if !ok {
+            return nil
         }
+        websocket.JSON.Send(ws, &markdown)
     }
     return nil
 }
