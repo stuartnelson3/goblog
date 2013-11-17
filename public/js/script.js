@@ -10,5 +10,6 @@ if (location.pathname === "/new") {
   ws.onmessage = function(e) {
     var container = document.querySelector('.post');
     container.innerHTML = JSON.parse(e.data);
-  };
+    $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+ };
 }
