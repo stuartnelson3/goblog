@@ -1,6 +1,6 @@
 /*
 Monokai style - ported by Luigi Maselli - http://grigio.org
-*/
+ */
 
 pre code {
   display: block; padding: 0.5em;
@@ -27,13 +27,13 @@ pre code {
 }
 
 pre code .constant {
-	color: #66D9EF;
+  color: #66D9EF;
 }
 
 pre .code,
 pre .class .title,
 pre .header {
-	color: white;
+  color: white;
 }
 
 pre .link_label,
@@ -42,7 +42,7 @@ pre .symbol,
 pre .symbol .string,
 pre .value,
 pre .regexp {
-	color: #BF79DB;
+  color: #BF79DB;
 }
 
 pre .link_url,
