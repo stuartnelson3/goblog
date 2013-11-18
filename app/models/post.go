@@ -89,3 +89,4 @@ func (p *Post) CreateTimestamp() {
     year := strconv.Itoa(createdAt.Year())
     p.CreatedAt = month + " " + day + " " + year
 }
+
