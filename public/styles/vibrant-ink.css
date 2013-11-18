@@ -6,7 +6,7 @@ pre { background-color: #333333; color: #ffffff; padding: 10px; border-radius: 4
 .number { color:  #FFEE98; }
 .def { color: #8DA6CE; }
 
-.title, .type { color: #FFC66D; }
+.title { color: #FFC66D; }
 
 .operator { color: #888; }
 .comment { color: gray; font-weight: bold; }
@@ -31,6 +31,7 @@ pre .header {
 
 pre .link_label,
 pre .attribute,
+pre .haskell .type,
 pre .symbol,
 pre .symbol .string,
 pre .value,
