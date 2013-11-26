@@ -62,28 +62,14 @@ func (c App) Create(post models.Post) revel.Result {
 }
 
 func (c App) MarkdownPreview(ws *websocket.Conn) revel.Result {
-    newMarkdown := make(chan string)
-    go func() {
-        var markdown string
-        for {
-            err := websocket.Message.Receive(ws, &markdown)
-            if err != nil {
-                close(newMarkdown)
-                return
-            }
-            post := models.Post{Body: markdown}
-            post.ParseBody()
-            newMarkdown <- post.Body
-        }
-    }()
-
     for {
-        markdown, ok := <-newMarkdown
-        if !ok {
-            return nil
-        }
-        websocket.JSON.Send(ws, &markdown)
+        var markdown string
+        websocket.Message.Receive(ws, &markdown)
+        post := models.Post{Body: markdown}
+        post.ParseBody()
+        websocket.JSON.Send(ws, &post.Body)
     }
+
     return nil
 }
 
