@@ -9,11 +9,8 @@
 
         {{ with . }}
           <div>
-            <div>
-              Title: <a href="/{{.Slug}}">{{.Title}}</a>
-            </div>
             <div>{{.CreatedAt}}</div>
-            <div>Body: {{raw .Body}}</div>
+            <div><a href="/{{.Slug}}">{{.Title}}</a></div>
           </div>
         {{end}}
 

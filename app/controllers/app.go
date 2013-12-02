@@ -22,13 +22,12 @@ func (c App) Index() revel.Result {
 }
 
 func (c App) Show(slug string) revel.Result {
-    pageHeader := "Show page!!"
     post := models.Post{}.FindBy("slug", slug)
     if post == nil {
         c.Response.Status = 404
         return c.NotFound("Doesn't Exist")
     }
-    return c.Render(post, pageHeader)
+    return c.Render(post)
 }
 
 func (c App) New() revel.Result {

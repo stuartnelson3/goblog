@@ -7,8 +7,8 @@
 
     {{ with .post }}
     <div>
-      <div>Title: {{.Title}}</div>
-      <div>Body:</div>
+      <div>{{.CreatedAt}}</div>
+      <h1>{{.Title}}</h1>
       <div class="post">{{raw .Body}}</div>
     </div>
     {{end}}
