@@ -6,10 +6,10 @@
   <div>
 
     {{ with .post }}
-    <div>
-      <div>{{.CreatedAt}}</div>
+    <div class="post">
+      <div class="date">{{.CreatedAt}}</div>
       <h1>{{.Title}}</h1>
-      <div class="post">{{raw .Body}}</div>
+      <div>{{raw .Body}}</div>
     </div>
     {{end}}
 
