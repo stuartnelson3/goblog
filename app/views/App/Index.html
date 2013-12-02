@@ -1,6 +1,7 @@
-{{set . "title" "Home"}}
+{{set . "title" "Stuart Nelson"}}
 {{template "header.html" .}}
-{{template "hero.html" .}}
+
+<h1>Stuart Nelson</h1>
 
 <div>
   <div>
@@ -9,8 +10,8 @@
 
         {{ with . }}
           <div>
-            <div>{{.CreatedAt}}</div>
-            <div><a href="/{{.Slug}}">{{.Title}}</a></div>
+            <div class="ilb lh1 datestamp">{{.CreatedAt}}</div>
+            <div class="ilb lh1"><a href="/{{.Slug}}">{{.Title}}</a></div>
           </div>
         {{end}}
 

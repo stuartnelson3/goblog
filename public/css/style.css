@@ -39,16 +39,33 @@ p {
   line-height: 1.8;
 }
 
-.container {
+body {
   margin: auto;
   width: 96%;
 }
 
-.post {
+.container {
   margin: 40px auto 80px;
   width: 90%;
 }
 
 .date {
   font-size: 80%;
+}
+
+.ilb {
+  display: inline-block;
+}
+
+.lh1 {
+  line-height: 1.8;
+}
+
+.lh2 {
+  line-height: 1.2;
+}
+
+.datestamp {
+  margin-right: 1%;
+  width: 10%;
 }

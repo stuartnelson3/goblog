@@ -16,26 +16,25 @@ func (c App) CheckToken() bool {
 }
 
 func (c App) Index() revel.Result {
-    pageHeader := "Main page!!"
     posts := models.Post{}.All()
-    return c.Render(posts, pageHeader)
+    return c.Render(posts)
 }
 
 func (c App) Show(slug string) revel.Result {
     post := models.Post{}.FindBy("slug", slug)
+    title := post.Title
     if post == nil {
         c.Response.Status = 404
         return c.NotFound("Doesn't Exist")
     }
-    return c.Render(post)
+    return c.Render(post, title)
 }
 
 func (c App) New() revel.Result {
     if !c.CheckToken() {
         return c.Redirect(Session.Destroy)
     }
-    pageHeader := "New post!!"
-    return c.Render(pageHeader)
+    return c.Render()
 }
 
 func (c App) Create(post models.Post) revel.Result {
@@ -68,7 +67,6 @@ func (c App) MarkdownPreview(ws *websocket.Conn) revel.Result {
         post.ParseBody()
         websocket.JSON.Send(ws, &post.Body)
     }
-
     return nil
 }
 
