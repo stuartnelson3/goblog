@@ -9,7 +9,7 @@ pre { background-color: #333333; color: #ffffff; padding: 10px; border-radius: 4
 .title { color: #FFC66D; }
 
 .operator { color: #888; }
-.comment { color: gray; font-weight: bold; }
+.comment { color: #666666; font-style: italic; }
 .string { color:  #A5C25C }
 .string-2 { color: red }
 .meta { color: #D8FA3C; }

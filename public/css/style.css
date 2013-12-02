@@ -1,0 +1,38 @@
+body {
+  font-family: 'Varela Round', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #606060;
+}
+
+h1, h2, blockquote p {
+  color: #404040;
+}
+
+.container {
+  margin: auto;
+  width: 96%;
+}
+
+textarea {
+  width: 100%;
+}
+
+pre code {
+  overflow: scroll;
+  width: 100%;
+}
+
+blockquote {
+  border-left: 5px solid #EB8753;
+  margin: 2%;
+}
+
+blockquote p {
+  font-size: 135%;
+  margin-left: 3%;
+}
+
+a {
+  color: #EB8753;
+}
