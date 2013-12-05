@@ -8,7 +8,6 @@ module:testrunner
 GET     /               App.Index
 GET     /new            App.New
 POST    /new            App.Create
-GET     /destroy/:id    App.Destroy
 GET     /:slug          App.Show
 WS      /new            App.MarkdownPreview
 
