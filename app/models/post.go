@@ -10,6 +10,8 @@ import (
     "strings"
     "regexp"
     "github.com/russross/blackfriday"
+    "os"
+    "sort"
 )
 
 type Post struct {
@@ -17,11 +19,23 @@ type Post struct {
     Body      string `json:"body"`
     Slug      string `json:"slug"`
     CreatedAt string `json:"createdAt"`
+    Mtime     string `json:"mtime"`
+}
+
+// sort posts by mtime
+type ByMtime []string
+func (a ByMtime) Len() int           { return len(a) }
+func (a ByMtime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByMtime) Less(i, j int) bool {
+    ai, _ := os.Stat(a[i])
+    aj, _ := os.Stat(a[j])
+    return ai.ModTime().After(aj.ModTime())
 }
 
 func (p Post) All() []*Post {
     var posts []*Post
     matches, _ := filepath.Glob("app/views/Posts/*.json")
+    sort.Sort(ByMtime(matches))
     for i:=0; i<len(matches); i++ {
         var post = &Post{}
         data, _ := ioutil.ReadFile(matches[i])
