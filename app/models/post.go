@@ -47,15 +47,11 @@ func (p Post) Find(id int) *Post {
 }
 
 func (p Post) FindBy(field string, cond string) *Post {
-    query := "select * from posts where "+field+"='"+cond+"' limit 1"
-    obj, err := dbmap.Select(Post{}, query)
-    if err != nil {
-        panic(err)
-    }
-    if len(obj) == 0 {
-        return nil
-    }
-    return obj[0].(*Post)
+    var post = &Post{}
+    absPath, _ := filepath.Abs("app/views/Posts/" + cond + ".json")
+    data, _ := ioutil.ReadFile(absPath)
+    json.Unmarshal(data, post)
+    return post
 }
 
 func (p *Post) Create() error {
