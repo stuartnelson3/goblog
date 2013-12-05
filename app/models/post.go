@@ -25,13 +25,13 @@ type Post struct {
 
 func (p Post) All() []*Post {
     var posts []*Post
-    // absPath, _ := filepath.Abs("../views/Posts/")
-    matches, _ := filepath.Glob("../views/Posts/*.json")
+    matches, _ := filepath.Glob("app/views/Posts/*.json")
     for i:=0; i<len(matches); i++ {
+        var post = &Post{}
         data, _ := ioutil.ReadFile(matches[i])
-        json.Unmarshal(data, posts[i])
+        json.Unmarshal(data, post)
+        posts = append(posts, post)
     }
-    dbmap.Select(&posts, "select * from posts order by id desc")
     return posts
 }
 
