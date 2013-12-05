@@ -1,6 +1,9 @@
 package models
 
 import (
+    "encoding/json"
+    "path/filepath"
+    "io/ioutil"
     "blog/db"
     "time"
     "fmt"
@@ -22,6 +25,12 @@ type Post struct {
 
 func (p Post) All() []*Post {
     var posts []*Post
+    // absPath, _ := filepath.Abs("../views/Posts/")
+    matches, _ := filepath.Glob("../views/Posts/*.json")
+    for i:=0; i<len(matches); i++ {
+        data, _ := ioutil.ReadFile(matches[i])
+        json.Unmarshal(data, posts[i])
+    }
     dbmap.Select(&posts, "select * from posts order by id desc")
     return posts
 }
@@ -53,8 +62,21 @@ func (p *Post) Create() error {
     p.ParseBody()
     p.CreateSlug()
     p.CreateTimestamp()
-    err := dbmap.Insert(p)
+    err := p.SaveJson()
+    // err := dbmap.Insert(p)
     return err
+}
+
+func (p *Post) SaveJson() error {
+    absPath, _ := filepath.Abs("../views/Posts/" + p.Slug + ".json")
+    err := ioutil.WriteFile(absPath, p.ToJson(), 0644)
+    if err != nil { return err }
+    return nil
+}
+
+func (p *Post) ToJson() []byte {
+    serialized, _ := json.Marshal(p)
+    return serialized
 }
 
 func (p *Post) Update() error {
