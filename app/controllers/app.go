@@ -69,21 +69,3 @@ func (c App) MarkdownPreview(ws *websocket.Conn) revel.Result {
     }
     return nil
 }
-
-func (c App) Destroy(id int) revel.Result {
-    if !c.CheckToken() {
-        return c.Redirect(Session.Destroy)
-    }
-    post := models.Post{}.Find(id)
-    if post == nil {
-        c.Flash.Error("Post not found!")
-        return c.Redirect(App.Index)
-    }
-    err := post.Destroy()
-    if err != nil {
-        c.Flash.Error("Delete failed!")
-        return c.Redirect(App.Index)
-    }
-    c.Flash.Success("Delete successful!")
-    return c.Redirect(Session.Show)
-}

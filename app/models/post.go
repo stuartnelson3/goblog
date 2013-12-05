@@ -1,71 +1,76 @@
 package models
 
 import (
-    "blog/db"
+    "encoding/json"
+    "path/filepath"
+    "io/ioutil"
     "time"
     "fmt"
     "strconv"
     "strings"
     "regexp"
     "github.com/russross/blackfriday"
+    "os"
+    "sort"
 )
-var tables = map[string]interface{}{"posts":Post{}}
-var dbmap = *dbsetup.DbSetup(tables)
 
 type Post struct {
-    Id int64
-    Title string
-    Body string
-    Slug string
-    CreatedAt string
+    Title     string `json:"title"`
+    Body      string `json:"body"`
+    Slug      string `json:"slug"`
+    CreatedAt string `json:"createdAt"`
+    Mtime     string `json:"mtime"`
+}
+
+// sort posts by mtime
+type ByMtime []string
+func (a ByMtime) Len() int           { return len(a) }
+func (a ByMtime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByMtime) Less(i, j int) bool {
+    ai, _ := os.Stat(a[i])
+    aj, _ := os.Stat(a[j])
+    return ai.ModTime().After(aj.ModTime())
 }
 
 func (p Post) All() []*Post {
     var posts []*Post
-    dbmap.Select(&posts, "select * from posts order by id desc")
+    matches, _ := filepath.Glob("app/views/Posts/*.json")
+    sort.Sort(ByMtime(matches))
+    for i:=0; i<len(matches); i++ {
+        var post = &Post{}
+        data, _ := ioutil.ReadFile(matches[i])
+        json.Unmarshal(data, post)
+        posts = append(posts, post)
+    }
     return posts
 }
 
-func (p Post) Find(id int) *Post {
-    obj, err := dbmap.Get(Post{}, id)
-    if err != nil {
-        panic(err)
-    }
-    if obj == nil {
-        return nil
-    }
-    return obj.(*Post)
-}
-
 func (p Post) FindBy(field string, cond string) *Post {
-    query := "select * from posts where "+field+"='"+cond+"' limit 1"
-    obj, err := dbmap.Select(Post{}, query)
-    if err != nil {
-        panic(err)
-    }
-    if len(obj) == 0 {
-        return nil
-    }
-    return obj[0].(*Post)
+    var post = &Post{}
+    absPath, _ := filepath.Abs("app/views/Posts/" + cond + ".json")
+    data, _ := ioutil.ReadFile(absPath)
+    json.Unmarshal(data, post)
+    return post
 }
 
 func (p *Post) Create() error {
     p.ParseBody()
     p.CreateSlug()
     p.CreateTimestamp()
-    err := dbmap.Insert(p)
+    err := p.SaveJson()
     return err
 }
 
-func (p *Post) Update() error {
-    p.ParseBody()
-    _, err := dbmap.Update(p)
-    return err
+func (p *Post) SaveJson() error {
+    absPath, _ := filepath.Abs("app/views/Posts/" + p.Slug + ".json")
+    err := ioutil.WriteFile(absPath, p.ToJson(), 0644)
+    if err != nil { return err }
+    return nil
 }
 
-func (p *Post) Destroy() error {
-    _, err := dbmap.Delete(p)
-    return err
+func (p *Post) ToJson() []byte {
+    serialized, _ := json.Marshal(p)
+    return serialized
 }
 
 func (p *Post) CreateSlug() {

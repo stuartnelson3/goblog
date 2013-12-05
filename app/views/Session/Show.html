@@ -10,8 +10,10 @@
 
   {{range .posts}}
     {{ with . }}
-      <div>Title: <a href="/{{.Slug}}">{{.Title}}</a></div>
-      <a href="/destroy/{{.Id}}">Delete Post</a>
+    <div>
+      <div class="ilb lh1 datestamp">{{.CreatedAt}}</div>
+      <div class="ilb lh1"><a href="/{{.Slug}}">{{.Title}}</a></div>
+    </div>
     {{end}}
   {{end}}
 
