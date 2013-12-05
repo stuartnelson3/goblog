@@ -68,7 +68,7 @@ func (p *Post) Create() error {
 }
 
 func (p *Post) SaveJson() error {
-    absPath, _ := filepath.Abs("../views/Posts/" + p.Slug + ".json")
+    absPath, _ := filepath.Abs("app/views/Posts/" + p.Slug + ".json")
     err := ioutil.WriteFile(absPath, p.ToJson(), 0644)
     if err != nil { return err }
     return nil
