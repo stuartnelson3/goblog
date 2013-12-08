@@ -45,7 +45,8 @@ body {
 }
 
 .container {
-  margin: 40px auto 80px;
+  margin: 40px auto 10px;
+  max-width: 720px;
   width: 90%;
 }
 
@@ -68,4 +69,19 @@ body {
 .datestamp {
   margin-right: 1%;
   width: 120px;
+}
+
+.profile-picture {
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  float: left;
+  margin-right: 45px;
+  width: 200px;
+}
+
+.about {
+  display: inline-block;
+  margin: 45px 0;
+  max-width: 215px;
+  font-size: 130%;
 }
